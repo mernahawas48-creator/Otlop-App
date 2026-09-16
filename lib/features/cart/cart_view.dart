@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:otlopapp/core/widgets/product_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:otlopapp/features/cart/cart_cubit.dart';
 import 'package:otlopapp/features/cart/cart_state.dart';
@@ -56,8 +57,8 @@ class CartView extends StatelessWidget {
 
                         child: Row(
                           children: [
-                            Image.network(
-                              item.product.thumbnail ?? '',
+                            ProductImage(
+                              imageUrl: item.product.thumbnail,
 
                               width: 80,
                               height: 80,
@@ -164,7 +165,7 @@ class CartView extends StatelessWidget {
 
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
+                      color: Colors.black.withValues(alpha: 0.1),
 
                       blurRadius: 10,
                     ),

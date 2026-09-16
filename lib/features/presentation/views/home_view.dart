@@ -2,133 +2,182 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:otlopapp/core/widgets/product_image.dart';
 import 'package:otlopapp/details_view.dart';
+import 'package:otlopapp/features/cart/cart_cubit.dart';
 import 'package:otlopapp/features/presentation/cubit/products_cubit.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocBuilder<ProductsCubit, ProductsState>(
-        builder: (context, state) {
-          if (state is ProductsLoading) {
-            return const Center(
-              child: CircularProgressIndicator(color: Colors.blue),
-            );
-          } else if (state is ProductsFailure) {
-            return Center(child: Text(state.errorMessage));
-          } else if (state is ProductsSucess) {
-            if (state.products.isEmpty) {
-              return const Center(child: Text('No products available'));
-            }
-
-            return GridView.builder(
-              padding: const EdgeInsets.all(12),
-              itemCount: state.products.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 0.75,
-                crossAxisSpacing: 12,
-                mainAxisSpacing: 12,
-              ),
-              itemBuilder: (context, index) {
-                final product = state.products[index];
-
-                return Card(
-                  clipBehavior: Clip.antiAlias,
-                  elevation: 2,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.pushNamed(
-                        context,
-                        ProductDetailsView.routeName,
-                        arguments: product,
-                      );
-                    },
+  Widget build(BuildContext context) => Scaffold(
+    backgroundColor: Colors.white,
+    body: SafeArea(
+      bottom: false,
+      child: Column(
+        children: [
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 16),
+            child: Text(
+              'Market',
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Expanded(
+            child: BlocBuilder<ProductsCubit, ProductsState>(
+              builder: (context, state) {
+                if (state is ProductsFailure) {
+                  return Center(
                     child: Padding(
-                      padding: const EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(24),
                       child: Column(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          Expanded(
-                            child: ProductImage(
-                              imageUrl: product.thumbnail,
-                              width: double.infinity,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            product.title ?? 'No Title',
-                            textAlign: TextAlign.center,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
+                          Text(state.errorMessage, textAlign: TextAlign.center),
+                          TextButton(
+                            onPressed: () =>
+                                context.read<ProductsCubit>().getAllProducts(),
+                            child: const Text('Retry'),
                           ),
                         ],
                       ),
                     ),
-                  ),
+                  );
+                }
+                if (state is! ProductsSucess) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (state.products.isEmpty) {
+                  return const Center(child: Text('No products available'));
+                }
+                return LayoutBuilder(
+                  builder: (context, constraints) {
+                    final columns = constraints.maxWidth < 340
+                        ? 1
+                        : (constraints.maxWidth / 180).floor().clamp(2, 4);
+                    final scale =
+                        MediaQuery.textScalerOf(context).scale(14) / 14;
+                    return GridView.builder(
+                      key: const PageStorageKey('market-grid'),
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                      itemCount: state.products.length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: columns,
+                        mainAxisExtent: 286 + (scale - 1).clamp(0, 3) * 110,
+                        crossAxisSpacing: 12,
+                        mainAxisSpacing: 16,
+                      ),
+                      itemBuilder: (context, index) {
+                        final product = state.products[index];
+                        return Card(
+                          margin: EdgeInsets.zero,
+                          color: Colors.white,
+                          surfaceTintColor: Colors.transparent,
+                          elevation: 2,
+                          shadowColor: Colors.black12,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          clipBehavior: Clip.antiAlias,
+                          child: InkWell(
+                            onTap: () => Navigator.pushNamed(
+                              context,
+                              ProductDetailsView.routeName,
+                              arguments: product,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(12),
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                    child: ProductImage(
+                                      imageUrl: product.thumbnail,
+                                      width: double.infinity,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  SizedBox(
+                                    height: 40 * scale,
+                                    child: Center(
+                                      child: Text(
+                                        product.title ?? 'Product',
+                                        textAlign: TextAlign.center,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 6),
+                                  Text(
+                                    product.price == null
+                                        ? 'Price unavailable'
+                                        : '\$${product.price!.toStringAsFixed(2)}',
+                                    style: const TextStyle(
+                                      color: Color(0xffD61355),
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  SizedBox(
+                                    width: double.infinity,
+                                    child: FilledButton(
+                                      style: FilledButton.styleFrom(
+                                        backgroundColor: const Color(
+                                          0xffE50046,
+                                        ),
+                                        foregroundColor: Colors.white,
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 6,
+                                          vertical: 10,
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            8,
+                                          ),
+                                        ),
+                                      ),
+                                      onPressed: product.price == null
+                                          ? null
+                                          : () {
+                                              context
+                                                  .read<CartCubit>()
+                                                  .addProduct(product);
+                                              ScaffoldMessenger.of(context)
+                                                ..hideCurrentSnackBar()
+                                                ..showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(
+                                                      '${product.title ?? 'Product'} added to cart',
+                                                    ),
+                                                    duration: const Duration(
+                                                      seconds: 1,
+                                                    ),
+                                                  ),
+                                                );
+                                            },
+                                      child: const Text(
+                                        'Add to Cart',
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
                 );
               },
-            );
-          }
-
-          // child: ,
-
-          return Container();
-        },
+            ),
+          ),
+        ],
       ),
-    );
-  }
+    ),
+  );
 }
-
-// class HomeView extends StatefulWidget {
-//   HomeView({super.key});
-
-//   @override
-//   State<HomeView> createState() => _HomeViewState();
-// }
-
-// class _HomeViewState extends State<HomeView> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: GridView.builder(
-//           itemCount: products.length,
-//           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-//               crossAxisCount: 2, childAspectRatio: 0.75),
-//           itemBuilder: (context, index) {
-//             return Card(
-//               child: Column(
-//                 children: [
-//                   Image.network(products[index]['thumbnail']),
-//                   Text(
-//                     products[index]['title'],
-//                     textAlign: TextAlign.center,
-//                   ),
-//                 ],
-//               ),
-//             );
-//           }),
-//     );
-//   }
-
-//   getAllProducts() async {
-//     Dio dio = Dio();
-//     Response response = await dio.get('https://dummyjson.com/products');
-
-//     // response.data['products'].forEach((prdouct) {
-//     //   products.add(prdouct);
-//     //   setState(() {});
-//     // });
-
-//     // response.data['products'].map((product) {
-//     //   products.add(product);
-//     // }).toList();
-
-//     for (var product in response.data['products']) {
-//       products.add(product);
-//     }
-//     print(products[0]['title']);
-//     return products;
-//   }
-// }

@@ -1,89 +1,93 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:otlopapp/core/utils/back_button.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:otlopapp/core/widgets/product_image.dart';
+import 'package:otlopapp/features/cart/cart_cubit.dart';
 import 'package:otlopapp/models/product_model.dart';
 import 'package:otlopapp/scrollable_details_body.dart';
 
 class ProductDetailsView extends StatelessWidget {
   static const routeName = '/productDetails';
-
   const ProductDetailsView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final double height = MediaQuery.of(context).size.height;
-    final ProductModel product =
-        ModalRoute.of(context)!.settings.arguments as ProductModel;
-    final String? headerImage = _bestProductImage(product);
-
+    final product = ModalRoute.of(context)!.settings.arguments as ProductModel;
+    final image =
+        (product.images ?? const <String>[])
+            .where((url) => url.trim().isNotEmpty)
+            .firstOrNull ??
+        product.thumbnail;
+    final imageHeight = (MediaQuery.sizeOf(context).height * .45).clamp(
+      280.0,
+      440.0,
+    );
     return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 20.0, left: 24.0, right: 24.0),
-        child: Container(
-          width: double.infinity,
-          height: 60.h,
-          decoration: BoxDecoration(
-            color: const Color(0xffD61355),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: const Center(
-            child: Text(
-              "Order Now",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ),
-      ),
       backgroundColor: Colors.white,
       body: CustomScrollView(
         slivers: [
-          // 1. Collapsible Image Header with Back Button
           SliverAppBar(
-            expandedHeight: height * 0.45,
             pinned: true,
-            automaticallyImplyLeading: false,
-            backgroundColor: Colors.transparent,
+            backgroundColor: Colors.white,
+            surfaceTintColor: Colors.transparent,
+            expandedHeight: imageHeight,
+            leading: Padding(
+              padding: const EdgeInsets.all(6),
+              child: IconButton.filled(
+                tooltip: 'Back',
+                style: IconButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  foregroundColor: const Color(0xffD61355),
+                ),
+                onPressed: () => Navigator.maybePop(context),
+                icon: const Icon(Icons.arrow_back),
+              ),
+            ),
             flexibleSpace: FlexibleSpaceBar(
-              background: Stack(
-                fit: StackFit.expand,
-                children: [
-                  ProductImage(
-                    imageUrl: headerImage,
-                    fit: BoxFit.contain,
+              collapseMode: CollapseMode.pin,
+              background: SafeArea(
+                bottom: false,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(24, 56, 24, 16),
+                  child: ProductImage(
+                    imageUrl: image,
+                    fallbackUrl: product.thumbnail,
                     width: double.infinity,
-                    height: double.infinity,
+                    fit: BoxFit.contain,
                   ),
-                  CustomBackButton(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                ],
+                ),
               ),
             ),
           ),
-
-          // 2. Scrollable Details Body
           ScrollableDetailsBody(product: product),
         ],
       ),
+      bottomNavigationBar: SafeArea(
+        top: false,
+        minimum: const EdgeInsets.fromLTRB(20, 12, 20, 12),
+        child: FilledButton(
+          style: FilledButton.styleFrom(
+            backgroundColor: const Color(0xffD61355),
+            padding: const EdgeInsets.all(16),
+          ),
+          onPressed: product.price == null
+              ? null
+              : () {
+                  context.read<CartCubit>().addProduct(product);
+                  ScaffoldMessenger.of(context)
+                    ..hideCurrentSnackBar()
+                    ..showSnackBar(
+                      const SnackBar(
+                        content: Text('Added to cart'),
+                        duration: Duration(seconds: 1),
+                      ),
+                    );
+                },
+          child: const Text(
+            'Add to Cart',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
     );
-  }
-
-  String? _bestProductImage(ProductModel product) {
-    final images = product.images ?? const <String>[];
-    for (final image in images) {
-      if (image.trim().isNotEmpty) {
-        return image;
-      }
-    }
-
-    return product.thumbnail;
   }
 }

@@ -3,7 +3,7 @@ flutter_native_splash:
   android: true
   ios: true
   web: true
-  fullscreen: true
+  fullscreen: false
   android_gravity: fill
   ios_content_mode: scaleAspectFill
   web_image_mode: cover
@@ -12,3 +12,6 @@ flutter_native_splash:
     color: "#FFFFFF"
     image: assets/images/otlob_logo_image.png
     icon_background_color: "#FFFFFF"
+
+# Regenerate with: dart run tool/regenerate_splash.dart
+# The wrapper retains the larger Android 12 icon and native wordmark.

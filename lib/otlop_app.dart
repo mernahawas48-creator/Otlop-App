@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:otlopapp/details_view.dart';
 import 'package:otlopapp/features/auth/auth_view.dart';
 import 'package:otlopapp/features/presentation/cubit/products_cubit.dart';
-import 'package:otlopapp/features/splash/splash_view.dart';
+import 'package:otlopapp/core/storage/app_preferences.dart';
 import 'package:otlopapp/nav_bar_view.dart';
 import 'package:otlopapp/on_boarding_view.dart';
 import 'package:otlopapp/features/cart/cart_cubit.dart';
@@ -28,7 +28,9 @@ class Otlopapp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           initialRoute: '/',
           routes: {
-            '/': (context) => const SplashView(),
+            '/': (context) => AppPreferences.hasSeenOnboarding
+                ? const AuthView()
+                : const OnBoardingView(),
             '/onboarding': (context) => const OnBoardingView(),
             '/auth': (context) {
               final showLogin =

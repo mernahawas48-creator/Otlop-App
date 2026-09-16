@@ -5,6 +5,7 @@ class ProductImage extends StatelessWidget {
   const ProductImage({
     super.key,
     required this.imageUrl,
+    this.fallbackUrl,
     this.width,
     this.height,
     this.fit = BoxFit.contain,
@@ -14,6 +15,7 @@ class ProductImage extends StatelessWidget {
   static const fallbackAsset = 'assets/images/otlob_logo_image.png';
 
   final String? imageUrl;
+  final String? fallbackUrl;
   final double? width;
   final double? height;
   final BoxFit fit;
@@ -31,15 +33,19 @@ class ProductImage extends StatelessWidget {
             fit: fit,
             filterQuality: FilterQuality.high,
             fadeInDuration: const Duration(milliseconds: 120),
-            placeholder: (_, _) => _ImagePlaceholder(
-              width: width,
-              height: height,
-            ),
-            errorWidget: (_, _, _) => _FallbackImage(
-              width: width,
-              height: height,
-              fit: fit,
-            ),
+            placeholder: (_, _) =>
+                _ImagePlaceholder(width: width, height: height),
+            errorWidget: (_, _, _) =>
+                fallbackUrl != null &&
+                    fallbackUrl!.trim().isNotEmpty &&
+                    fallbackUrl!.trim() != url
+                ? ProductImage(
+                    imageUrl: fallbackUrl,
+                    width: width,
+                    height: height,
+                    fit: fit,
+                  )
+                : _FallbackImage(width: width, height: height, fit: fit),
           );
 
     if (borderRadius == BorderRadius.zero) {
