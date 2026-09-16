@@ -1,15 +1,11 @@
-// import 'package:cached_network_image/cached_network_image.dart';
-// import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:otlopapp/details_view.dart';
+import 'package:otlopapp/core/widgets/product_image.dart';
+import 'package:otlopapp/details_view.dart';
 import 'package:otlopapp/features/presentation/cubit/products_cubit.dart';
-import 'package:otlopapp/features/cart/cart_cubit.dart';
-
-// import 'package:otlopapp/models/product_model.dart';
 
 class HomeView extends StatelessWidget {
-  HomeView({super.key});
+  const HomeView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,84 +19,52 @@ class HomeView extends StatelessWidget {
           } else if (state is ProductsFailure) {
             return Center(child: Text(state.errorMessage));
           } else if (state is ProductsSucess) {
+            if (state.products.isEmpty) {
+              return const Center(child: Text('No products available'));
+            }
+
             return GridView.builder(
+              padding: const EdgeInsets.all(12),
               itemCount: state.products.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 childAspectRatio: 0.75,
+                crossAxisSpacing: 12,
+                mainAxisSpacing: 12,
               ),
               itemBuilder: (context, index) {
+                final product = state.products[index];
+
                 return Card(
-                  margin: const EdgeInsets.all(8),
-
-                  child: Padding(
-                    padding: const EdgeInsets.all(8),
-
-                    child: Column(
-                      children: [
-                        Expanded(
-                          child: Image.network(
-                            state.products[index].thumbnail ?? '',
-                            fit: BoxFit.contain,
-                          ),
-                        ),
-
-                        const SizedBox(height: 8),
-
-                        Text(
-                          state.products[index].title ?? 'No Title',
-                          textAlign: TextAlign.center,
-
-                          maxLines: 2,
-
-                          overflow: TextOverflow.ellipsis,
-
-                          style: const TextStyle(fontWeight: FontWeight.w600),
-                        ),
-
-                        const SizedBox(height: 5),
-
-                        Text(
-                          '\$${state.products[index].price ?? 0}',
-
-                          style: const TextStyle(
-                            color: Color(0xFFE50046),
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-
-                        const SizedBox(height: 8),
-
-                        SizedBox(
-                          width: double.infinity,
-
-                          child: ElevatedButton(
-                            onPressed: () {
-                              context.read<CartCubit>().addProduct(
-                                state.products[index],
-                              );
-
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    '${state.products[index].title} added to cart',
-                                  ),
-
-                                  duration: const Duration(seconds: 1),
-                                ),
-                              );
-                            },
-
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFFE50046),
-
-                              foregroundColor: Colors.white,
+                  clipBehavior: Clip.antiAlias,
+                  elevation: 2,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        ProductDetailsView.routeName,
+                        arguments: product,
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Column(
+                        children: [
+                          Expanded(
+                            child: ProductImage(
+                              imageUrl: product.thumbnail,
+                              width: double.infinity,
                             ),
-
-                            child: const Text('Add to Cart'),
                           ),
-                        ),
-                      ],
+                          const SizedBox(height: 8),
+                          Text(
+                            product.title ?? 'No Title',
+                            textAlign: TextAlign.center,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 );

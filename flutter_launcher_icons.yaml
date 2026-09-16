@@ -1,0 +1,21 @@
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: assets/images/otlob_logo_image.png
+  remove_alpha_ios: true
+  min_sdk_android: 24
+
+  web:
+    generate: true
+    image_path: assets/images/otlob_logo_image.png
+    background_color: "#FFFFFF"
+    theme_color: "#D61355"
+
+  windows:
+    generate: true
+    image_path: assets/images/otlob_logo_image.png
+    icon_size: 48
+
+  macos:
+    generate: true
+    image_path: assets/images/otlob_logo_image.png

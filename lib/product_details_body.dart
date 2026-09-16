@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:otlopapp/core/widgets/product_image.dart';
 import 'package:otlopapp/models/product_model.dart';
 
 class ProductDetailsBody extends StatelessWidget {
@@ -49,6 +50,25 @@ class ProductDetailsBody extends StatelessWidget {
           product.description ?? '',
           style: TextStyle(fontSize: 16, height: 1.5, color: Colors.black87),
         ),
+        if (product.images?.isNotEmpty ?? false) ...[
+          const SizedBox(height: 20),
+          SizedBox(
+            height: 96,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: product.images!.length,
+              separatorBuilder: (_, _) => const SizedBox(width: 10),
+              itemBuilder: (context, index) {
+                return ProductImage(
+                  imageUrl: product.images![index],
+                  width: 96,
+                  height: 96,
+                  borderRadius: BorderRadius.circular(10),
+                );
+              },
+            ),
+          ),
+        ],
         const SizedBox(height: 40),
       ],
     );

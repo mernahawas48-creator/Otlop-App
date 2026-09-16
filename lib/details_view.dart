@@ -1,7 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:otlopapp/core/utils/back_button.dart';
+import 'package:otlopapp/core/widgets/product_image.dart';
 import 'package:otlopapp/models/product_model.dart';
 import 'package:otlopapp/scrollable_details_body.dart';
 
@@ -15,6 +15,7 @@ class ProductDetailsView extends StatelessWidget {
     final double height = MediaQuery.of(context).size.height;
     final ProductModel product =
         ModalRoute.of(context)!.settings.arguments as ProductModel;
+    final String? headerImage = _bestProductImage(product);
 
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -52,9 +53,11 @@ class ProductDetailsView extends StatelessWidget {
               background: Stack(
                 fit: StackFit.expand,
                 children: [
-                  CachedNetworkImage(
-                    imageUrl: product.thumbnail ?? '',
-                    fit: BoxFit.cover,
+                  ProductImage(
+                    imageUrl: headerImage,
+                    fit: BoxFit.contain,
+                    width: double.infinity,
+                    height: double.infinity,
                   ),
                   CustomBackButton(
                     onTap: () {
@@ -71,5 +74,16 @@ class ProductDetailsView extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String? _bestProductImage(ProductModel product) {
+    final images = product.images ?? const <String>[];
+    for (final image in images) {
+      if (image.trim().isNotEmpty) {
+        return image;
+      }
+    }
+
+    return product.thumbnail;
   }
 }
