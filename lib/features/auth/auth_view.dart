@@ -4,6 +4,8 @@ import 'package:otlopapp/core/utils/back_button.dart';
 import 'package:otlopapp/features/auth/cubit/sign_in_cubit.dart';
 import 'package:otlopapp/features/auth/sign_in.dart';
 import 'package:otlopapp/features/auth/sign_up.dart';
+import 'package:otlopapp/core/networking/api_consumer.dart';
+import 'package:otlopapp/core/utils/service_locator.dart';
 
 class AuthView extends StatefulWidget {
   final bool initialLogin;
@@ -93,7 +95,8 @@ class _LoginSignupScreenState extends State<AuthView> {
                     const SizedBox(height: 30),
                     if (isLogin)
                       BlocProvider<SignInCubit>(
-                        create: (context) => SignInCubit(),
+                        create: (context) =>
+                            SignInCubit(apiConsumer: getIt<ApiConsumer>()),
                         child: const SignInForm(),
                       )
                     else
