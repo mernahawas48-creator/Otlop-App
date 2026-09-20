@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:otlopapp/core/widgets/product_image.dart';
@@ -33,7 +34,7 @@ class ProductDetailsView extends StatelessWidget {
             leading: Padding(
               padding: const EdgeInsets.all(6),
               child: IconButton.filled(
-                tooltip: 'Back',
+                tooltip: 'common.back'.tr(),
                 style: IconButton.styleFrom(
                   backgroundColor: Colors.white,
                   foregroundColor: const Color(0xffD61355),
@@ -76,15 +77,15 @@ class ProductDetailsView extends StatelessWidget {
                   ScaffoldMessenger.of(context)
                     ..hideCurrentSnackBar()
                     ..showSnackBar(
-                      const SnackBar(
-                        content: Text('Added to cart'),
-                        duration: Duration(seconds: 1),
+                      SnackBar(
+                        content: Text('details.added_to_cart'.tr()),
+                        duration: const Duration(seconds: 1),
                       ),
                     );
                 },
-          child: const Text(
-            'Add to Cart',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          child: Text(
+            'home.add_to_cart'.tr(),
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
         ),
       ),

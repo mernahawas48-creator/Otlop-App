@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -10,6 +11,8 @@ import 'package:otlopapp/core/utils/display_awesome_dialog.dart';
 
 import 'package:otlopapp/features/auth/otp_screen.dart';
 import 'package:otlopapp/features/auth/repos/auth_repo.dart';
+
+const bool skipOtpForTesting = true;
 
 class SignUpForm extends StatefulWidget {
   const SignUpForm({super.key});
@@ -91,12 +94,17 @@ class _SignUpFormState extends State<SignUpForm> {
         return;
       }
 
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => OtpScreen(email: _emailController.text.trim()),
-        ),
-      );
+      if (skipOtpForTesting) {
+        Navigator.pushNamedAndRemoveUntil(context, '/nav', (route) => false);
+      } else {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                OtpScreen(email: _emailController.text.trim()),
+          ),
+        );
+      }
     } on DioException catch (e) {
       if (!mounted) {
         return;
@@ -116,8 +124,7 @@ class _SignUpFormState extends State<SignUpForm> {
         context,
 
         errorMessage:
-            'Unable to create the account. '
-            'Please try again.',
+            'auth.create_account_failed'.tr(),
       );
     } finally {
       if (mounted) {
@@ -132,27 +139,27 @@ class _SignUpFormState extends State<SignUpForm> {
     final String password = value ?? '';
 
     if (password.isEmpty) {
-      return 'Please enter your password';
+      return 'auth.validation.password_required'.tr();
     }
 
     if (password.length < 6) {
-      return 'Password must be at least 6 characters';
+      return 'auth.validation.password_min'.tr();
     }
 
     if (!RegExp(r'[A-Z]').hasMatch(password)) {
-      return 'Password must contain an uppercase letter';
+      return 'auth.validation.password_uppercase'.tr();
     }
 
     if (!RegExp(r'[a-z]').hasMatch(password)) {
-      return 'Password must contain a lowercase letter';
+      return 'auth.validation.password_lowercase'.tr();
     }
 
     if (!RegExp(r'[0-9]').hasMatch(password)) {
-      return 'Password must contain a number';
+      return 'auth.validation.password_number'.tr();
     }
 
     if (!RegExp(r'[^A-Za-z0-9]').hasMatch(password)) {
-      return 'Password must contain a special character';
+      return 'auth.validation.password_special'.tr();
     }
 
     return null;
@@ -239,10 +246,10 @@ class _SignUpFormState extends State<SignUpForm> {
 
                   const SizedBox(height: 10),
 
-                  const Text(
-                    'Add profile picture',
+                  Text(
+                    'auth.add_profile_picture'.tr(),
 
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Color(0xFFE50046),
 
                       fontWeight: FontWeight.w600,
@@ -257,10 +264,10 @@ class _SignUpFormState extends State<SignUpForm> {
             // =========================
             // FIRST NAME
             // =========================
-            const Text(
-              'First Name',
+            Text(
+              'auth.first_name'.tr(),
 
-              style: TextStyle(fontWeight: FontWeight.w600),
+              style: const TextStyle(fontWeight: FontWeight.w600),
             ),
 
             const SizedBox(height: 6),
@@ -268,15 +275,15 @@ class _SignUpFormState extends State<SignUpForm> {
             TextFormField(
               controller: _firstNameController,
 
-              decoration: const InputDecoration(
-                hintText: 'First Name',
+              decoration: InputDecoration(
+                hintText: 'auth.first_name'.tr(),
 
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
               ),
 
               validator: (value) {
                 if (value == null || value.trim().isEmpty) {
-                  return 'Please enter your first name';
+                  return 'auth.validation.first_name_required'.tr();
                 }
 
                 return null;
@@ -285,10 +292,10 @@ class _SignUpFormState extends State<SignUpForm> {
 
             const SizedBox(height: 15),
 
-            const Text(
-              'Last Name',
+            Text(
+              'auth.last_name'.tr(),
 
-              style: TextStyle(fontWeight: FontWeight.w600),
+              style: const TextStyle(fontWeight: FontWeight.w600),
             ),
 
             const SizedBox(height: 6),
@@ -296,15 +303,15 @@ class _SignUpFormState extends State<SignUpForm> {
             TextFormField(
               controller: _lastNameController,
 
-              decoration: const InputDecoration(
-                hintText: 'Last Name',
+              decoration: InputDecoration(
+                hintText: 'auth.last_name'.tr(),
 
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
               ),
 
               validator: (value) {
                 if (value == null || value.trim().isEmpty) {
-                  return 'Please enter your last name';
+                  return 'auth.validation.last_name_required'.tr();
                 }
 
                 return null;
@@ -313,7 +320,10 @@ class _SignUpFormState extends State<SignUpForm> {
 
             const SizedBox(height: 15),
 
-            const Text('Email', style: TextStyle(fontWeight: FontWeight.w600)),
+            Text(
+              'auth.email'.tr(),
+              style: const TextStyle(fontWeight: FontWeight.w600),
+            ),
 
             const SizedBox(height: 6),
 
@@ -322,22 +332,22 @@ class _SignUpFormState extends State<SignUpForm> {
 
               keyboardType: TextInputType.emailAddress,
 
-              decoration: const InputDecoration(
-                hintText: 'Email Address',
+              decoration: InputDecoration(
+                hintText: 'auth.email_hint'.tr(),
 
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
               ),
 
               validator: (value) {
                 if (value == null || value.trim().isEmpty) {
-                  return 'Please enter your email';
+                  return 'auth.validation.email_required'.tr();
                 }
 
                 final bool validEmail = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$')
                     .hasMatch(value.trim());
 
                 if (!validEmail) {
-                  return 'Please enter a valid email';
+                  return 'auth.validation.valid_email'.tr();
                 }
 
                 return null;
@@ -346,10 +356,10 @@ class _SignUpFormState extends State<SignUpForm> {
 
             const SizedBox(height: 15),
 
-            const Text(
-              'Password',
+            Text(
+              'auth.password'.tr(),
 
-              style: TextStyle(fontWeight: FontWeight.w600),
+              style: const TextStyle(fontWeight: FontWeight.w600),
             ),
 
             const SizedBox(height: 6),
@@ -360,7 +370,7 @@ class _SignUpFormState extends State<SignUpForm> {
               obscureText: _obscurePassword,
 
               decoration: InputDecoration(
-                hintText: 'Password',
+                hintText: 'auth.password'.tr(),
 
                 border: const OutlineInputBorder(),
 
@@ -383,7 +393,7 @@ class _SignUpFormState extends State<SignUpForm> {
             const SizedBox(height: 5),
 
             Text(
-              'Use uppercase, lowercase, number and special character.',
+              'auth.password_hint'.tr(),
 
               style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
             ),
@@ -419,10 +429,10 @@ class _SignUpFormState extends State<SignUpForm> {
                           color: Colors.white,
                         ),
                       )
-                    : const Text(
-                        'Sign Up',
+                    : Text(
+                        'auth.sign_up'.tr(),
 
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
               ),
             ),

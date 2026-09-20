@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -31,7 +32,7 @@ class _OtpScreenState extends State<OtpScreen> {
       displayAwesomeDialog(
         context,
 
-        errorMessage: 'Please enter the complete OTP.',
+        errorMessage: 'otp.complete_code'.tr(),
       );
 
       return;
@@ -55,11 +56,11 @@ class _OtpScreenState extends State<OtpScreen> {
       displayAwesomeDialog(
         context,
 
-        title: 'Success Registration',
+        title: 'otp.success_title'.tr(),
 
-        message: 'Your account has been verified successfully.',
+        message: 'otp.success_message'.tr(),
 
-        buttonText: 'Continue',
+        buttonText: 'otp.continue'.tr(),
 
         onOk: () {
           Navigator.pushNamedAndRemoveUntil(context, '/nav', (route) => false);
@@ -78,8 +79,7 @@ class _OtpScreenState extends State<OtpScreen> {
         context,
 
         errorMessage:
-            'Unable to verify OTP. '
-            'Please try again.',
+            'otp.verify_failed'.tr(),
       );
     }
   }
@@ -100,7 +100,7 @@ class _OtpScreenState extends State<OtpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('OTP Verification'), centerTitle: true),
+      appBar: AppBar(title: Text('otp.title'.tr()), centerTitle: true),
 
       body: SafeArea(
         child: Padding(
@@ -120,16 +120,19 @@ class _OtpScreenState extends State<OtpScreen> {
 
               const SizedBox(height: 25),
 
-              const Text(
-                'Verify your email',
+              Text(
+                'otp.verify_email'.tr(),
 
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
 
               const SizedBox(height: 10),
 
               Text(
-                'Enter the 6-digit code sent to\n${widget.email}',
+                'otp.enter_code'.tr(namedArgs: {'email': widget.email}),
 
                 textAlign: TextAlign.center,
 
@@ -217,7 +220,7 @@ class _OtpScreenState extends State<OtpScreen> {
                             color: Colors.white,
                           ),
                         )
-                      : const Text('Verify'),
+                      : Text('otp.verify'.tr()),
                 ),
               ),
 
@@ -228,14 +231,14 @@ class _OtpScreenState extends State<OtpScreen> {
                   displayAwesomeDialog(
                     context,
 
-                    message: 'A new OTP will be sent when the resend API is connected.',
+                    message: 'otp.resend_message'.tr(),
                   );
                 },
 
-                child: const Text(
-                  'Resend Code',
+                child: Text(
+                  'otp.resend_code'.tr(),
 
-                  style: TextStyle(color: Color(0xFFE50046)),
+                  style: const TextStyle(color: Color(0xFFE50046)),
                 ),
               ),
             ],

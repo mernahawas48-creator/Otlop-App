@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:otlopapp/core/widgets/product_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,27 +11,30 @@ class CartView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('My Cart'), centerTitle: true),
+      appBar: AppBar(title: Text('cart.my_cart'.tr()), centerTitle: true),
 
       body: BlocBuilder<CartCubit, CartState>(
         builder: (context, state) {
           if (state.items.isEmpty) {
-            return const Center(
+            return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
 
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.shopping_cart_outlined,
                     size: 80,
                     color: Colors.grey,
                   ),
 
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
 
                   Text(
-                    'Your cart is empty',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                    'cart.empty'.tr(),
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ],
               ),
@@ -178,10 +182,10 @@ class CartView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
                       children: [
-                        const Text(
-                          'Total',
+                        Text(
+                          'cart.total'.tr(),
 
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 18,
 
                             fontWeight: FontWeight.bold,
@@ -214,11 +218,15 @@ class CartView extends StatelessWidget {
                             context: context,
 
                             builder: (_) => AlertDialog(
-                              title: const Text('Checkout'),
+                              title: Text('cart.checkout'.tr()),
 
                               content: Text(
-                                'Total payment: '
-                                '\$${state.totalPrice.toStringAsFixed(2)}',
+                                'cart.total_payment'.tr(
+                                  namedArgs: {
+                                    'amount':
+                                        '\$${state.totalPrice.toStringAsFixed(2)}',
+                                  },
+                                ),
                               ),
 
                               actions: [
@@ -227,7 +235,7 @@ class CartView extends StatelessWidget {
                                     Navigator.pop(context);
                                   },
 
-                                  child: const Text('Cancel'),
+                                  child: Text('common.cancel'.tr()),
                                 ),
 
                                 ElevatedButton(
@@ -237,15 +245,15 @@ class CartView extends StatelessWidget {
                                     Navigator.pop(context);
 
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
+                                      SnackBar(
                                         content: Text(
-                                          'Order completed successfully',
+                                          'cart.completed'.tr(),
                                         ),
                                       ),
                                     );
                                   },
 
-                                  child: const Text('Pay'),
+                                  child: Text('cart.pay'.tr()),
                                 ),
                               ],
                             ),
@@ -258,7 +266,7 @@ class CartView extends StatelessWidget {
                           foregroundColor: Colors.white,
                         ),
 
-                        child: const Text('Proceed to Checkout'),
+                        child: Text('cart.proceed_to_checkout'.tr()),
                       ),
                     ),
                   ],

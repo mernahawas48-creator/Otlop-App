@@ -1,0 +1,112 @@
+{
+  "app": {
+    "title": "Otlob"
+  },
+  "common": {
+    "error": "Error",
+    "success": "Success",
+    "ok": "Ok",
+    "cancel": "Cancel",
+    "retry": "Retry",
+    "back": "Back",
+    "notifications": "Notifications",
+    "product": "Product",
+    "price_unavailable": "Price unavailable"
+  },
+  "onboarding": {
+    "first_title": "Select the Favorites Menu",
+    "first_description": "Eat well without leaving home. Choose your favorite food with one click.",
+    "second_title": "Good food at a good price",
+    "second_description": "Enjoy food from your favorite restaurants at affordable prices.",
+    "next": "Next",
+    "get_started": "Get Started"
+  },
+  "auth": {
+    "create_account": "Create Account",
+    "login": "Login",
+    "email": "Email",
+    "email_address": "Email address",
+    "email_hint": "Email Address",
+    "password": "Password",
+    "first_name": "First Name",
+    "last_name": "Last Name",
+    "add_profile_picture": "Add profile picture",
+    "forget_password": "Forget Password?",
+    "login_with_google": "Login with Google",
+    "sign_up": "Sign Up",
+    "password_hint": "Use uppercase, lowercase, number and special character.",
+    "create_account_failed": "Unable to create the account. Please try again.",
+    "validation": {
+      "email_required": "Please enter your email",
+      "valid_email": "Please enter a valid email",
+      "password_required": "Please enter your password",
+      "password_min": "Password must be at least 6 characters",
+      "password_uppercase": "Password must contain an uppercase letter",
+      "password_lowercase": "Password must contain a lowercase letter",
+      "password_number": "Password must contain a number",
+      "password_special": "Password must contain a special character",
+      "first_name_required": "Please enter your first name",
+      "last_name_required": "Please enter your last name"
+    }
+  },
+  "otp": {
+    "title": "OTP Verification",
+    "verify_email": "Verify your email",
+    "enter_code": "Enter the 6-digit code sent to\n{email}",
+    "complete_code": "Please enter the complete OTP.",
+    "success_title": "Success Registration",
+    "success_message": "Your account has been verified successfully.",
+    "continue": "Continue",
+    "verify_failed": "Unable to verify OTP. Please try again.",
+    "verify": "Verify",
+    "resend_message": "A new OTP will be sent when the resend API is connected.",
+    "resend_code": "Resend Code"
+  },
+  "home": {
+    "market": "Market",
+    "no_products": "No products available",
+    "add_to_cart": "Add to Cart",
+    "added_to_cart": "{product} added to cart"
+  },
+  "details": {
+    "added_to_cart": "Added to cart",
+    "in_stock": "{count} in stock"
+  },
+  "cart": {
+    "my_cart": "My Cart",
+    "empty": "Your cart is empty",
+    "total": "Total",
+    "checkout": "Checkout",
+    "total_payment": "Total payment: {amount}",
+    "pay": "Pay",
+    "completed": "Order completed successfully",
+    "proceed_to_checkout": "Proceed to Checkout"
+  },
+  "nav": {
+    "home": "Home",
+    "cart": "Cart",
+    "profile": "Profile",
+    "settings": "Settings",
+    "settings_page": "Settings Page"
+  },
+  "profile": {
+    "title": "Profile",
+    "edit_profile": "Edit Profile",
+    "save_changes": "Save Changes",
+    "updated": "Profile updated",
+    "your_name": "Your name",
+    "no_email": "No email added",
+    "add_address": "Add your address",
+    "personal_info": "Personal Info",
+    "contact_info": "Contact Info",
+    "occupation": "Occupation",
+    "manager": "Manager",
+    "employer": "Employer",
+    "food_couriers": "Food Couriers",
+    "nigeria": "Nigeria",
+    "phone_number": "Phone number",
+    "email": "Email",
+    "address": "Address",
+    "change_photo": "Change photo"
+  }
+}

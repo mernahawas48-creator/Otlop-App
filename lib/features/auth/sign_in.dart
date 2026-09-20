@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:otlopapp/core/utils/display_awesome_dialog.dart';
@@ -38,9 +39,9 @@ class _SignInFormState extends State<SignInForm> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Email address',
-              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+            Text(
+              'auth.email_address'.tr(),
+              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 8),
             TextFormField(
@@ -55,18 +56,18 @@ class _SignInFormState extends State<SignInForm> {
               validator: (value) {
                 final email = value?.trim() ?? '';
                 if (email.isEmpty) {
-                  return 'Please enter your email';
+                  return 'auth.validation.email_required'.tr();
                 }
                 if (!RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$').hasMatch(email)) {
-                  return 'Please enter a valid email';
+                  return 'auth.validation.valid_email'.tr();
                 }
                 return null;
               },
             ),
             const SizedBox(height: 15),
-            const Text(
-              'Password',
-              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+            Text(
+              'auth.password'.tr(),
+              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 8),
             TextFormField(
@@ -88,7 +89,7 @@ class _SignInFormState extends State<SignInForm> {
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Please enter your password';
+                  return 'auth.validation.password_required'.tr();
                 }
                 return null;
               },
@@ -98,9 +99,12 @@ class _SignInFormState extends State<SignInForm> {
               alignment: Alignment.centerRight,
               child: TextButton(
                 onPressed: () {},
-                child: const Text(
-                  'Forget Password?',
-                  style: TextStyle(color: Color(0xFFE50046), fontSize: 11),
+                child: Text(
+                  'auth.forget_password'.tr(),
+                  style: const TextStyle(
+                    color: Color(0xFFE50046),
+                    fontSize: 11,
+                  ),
                 ),
               ),
             ),
@@ -135,7 +139,7 @@ class _SignInFormState extends State<SignInForm> {
                               strokeWidth: 2,
                             ),
                           )
-                        : const Text('Login'),
+                        : Text('auth.login'.tr()),
                   );
                 },
               ),
@@ -146,7 +150,7 @@ class _SignInFormState extends State<SignInForm> {
               height: 45,
               child: ElevatedButton(
                 onPressed: () {},
-                child: const Text('Login with Google'),
+                child: Text('auth.login_with_google'.tr()),
               ),
             ),
           ],

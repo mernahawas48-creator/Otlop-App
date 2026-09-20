@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:otlopapp/core/widgets/product_image.dart';
 import 'package:otlopapp/models/product_model.dart';
@@ -11,13 +12,13 @@ class ProductDetailsBody extends StatelessWidget {
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Text(
-        product.title ?? 'Product',
+        product.title ?? 'common.product'.tr(),
         style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
       ),
       const SizedBox(height: 12),
       Text(
         product.price == null
-            ? 'Price unavailable'
+            ? 'common.price_unavailable'.tr()
             : '\$${product.price!.toStringAsFixed(2)}',
         style: const TextStyle(
           fontSize: 24,
@@ -39,7 +40,12 @@ class ProductDetailsBody extends StatelessWidget {
                 Text('${product.rating}'),
               ],
             ),
-          if (product.stock != null) Text('${product.stock} in stock'),
+          if (product.stock != null)
+            Text(
+              'details.in_stock'.tr(
+                namedArgs: {'count': product.stock.toString()},
+              ),
+            ),
         ],
       ),
       const SizedBox(height: 20),

@@ -1,0 +1,112 @@
+{
+  "app": {
+    "title": "اطلب"
+  },
+  "common": {
+    "error": "خطأ",
+    "success": "تم بنجاح",
+    "ok": "حسنًا",
+    "cancel": "إلغاء",
+    "retry": "إعادة المحاولة",
+    "back": "رجوع",
+    "notifications": "الإشعارات",
+    "product": "منتج",
+    "price_unavailable": "السعر غير متاح"
+  },
+  "onboarding": {
+    "first_title": "اختاري وجبتك المفضلة",
+    "first_description": "كلي كويس من غير ما تخرجي من البيت. اختاري أكلك المفضل بضغطة واحدة.",
+    "second_title": "أكل جيد بسعر مناسب",
+    "second_description": "استمتعي بالأكل من مطاعمك المفضلة بأسعار مناسبة.",
+    "next": "التالي",
+    "get_started": "ابدئي"
+  },
+  "auth": {
+    "create_account": "إنشاء حساب",
+    "login": "تسجيل الدخول",
+    "email": "البريد الإلكتروني",
+    "email_address": "البريد الإلكتروني",
+    "email_hint": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "first_name": "الاسم الأول",
+    "last_name": "اسم العائلة",
+    "add_profile_picture": "إضافة صورة شخصية",
+    "forget_password": "نسيتِ كلمة المرور؟",
+    "login_with_google": "تسجيل الدخول بجوجل",
+    "sign_up": "تسجيل حساب",
+    "password_hint": "استخدمي حرف كبير وحرف صغير ورقم ورمز خاص.",
+    "create_account_failed": "تعذر إنشاء الحساب. حاولي مرة أخرى.",
+    "validation": {
+      "email_required": "من فضلك أدخلي البريد الإلكتروني",
+      "valid_email": "من فضلك أدخلي بريدًا إلكترونيًا صحيحًا",
+      "password_required": "من فضلك أدخلي كلمة المرور",
+      "password_min": "كلمة المرور يجب ألا تقل عن 6 أحرف",
+      "password_uppercase": "كلمة المرور يجب أن تحتوي على حرف كبير",
+      "password_lowercase": "كلمة المرور يجب أن تحتوي على حرف صغير",
+      "password_number": "كلمة المرور يجب أن تحتوي على رقم",
+      "password_special": "كلمة المرور يجب أن تحتوي على رمز خاص",
+      "first_name_required": "من فضلك أدخلي الاسم الأول",
+      "last_name_required": "من فضلك أدخلي اسم العائلة"
+    }
+  },
+  "otp": {
+    "title": "تأكيد الكود",
+    "verify_email": "تأكيد البريد الإلكتروني",
+    "enter_code": "أدخلي الكود المكون من 6 أرقام المرسل إلى\n{email}",
+    "complete_code": "من فضلك أدخلي كود OTP كاملًا.",
+    "success_title": "تم التسجيل بنجاح",
+    "success_message": "تم تأكيد حسابك بنجاح.",
+    "continue": "متابعة",
+    "verify_failed": "تعذر تأكيد OTP. حاولي مرة أخرى.",
+    "verify": "تأكيد",
+    "resend_message": "سيتم إرسال OTP جديد بعد ربط API إعادة الإرسال.",
+    "resend_code": "إعادة إرسال الكود"
+  },
+  "home": {
+    "market": "السوق",
+    "no_products": "لا توجد منتجات متاحة",
+    "add_to_cart": "إضافة إلى السلة",
+    "added_to_cart": "تمت إضافة {product} إلى السلة"
+  },
+  "details": {
+    "added_to_cart": "تمت الإضافة إلى السلة",
+    "in_stock": "{count} متاح في المخزون"
+  },
+  "cart": {
+    "my_cart": "سلتي",
+    "empty": "السلة فارغة",
+    "total": "الإجمالي",
+    "checkout": "الدفع",
+    "total_payment": "إجمالي الدفع: {amount}",
+    "pay": "ادفع",
+    "completed": "تم إكمال الطلب بنجاح",
+    "proceed_to_checkout": "المتابعة للدفع"
+  },
+  "nav": {
+    "home": "الرئيسية",
+    "cart": "السلة",
+    "profile": "الملف الشخصي",
+    "settings": "الإعدادات",
+    "settings_page": "صفحة الإعدادات"
+  },
+  "profile": {
+    "title": "الملف الشخصي",
+    "edit_profile": "تعديل الملف الشخصي",
+    "save_changes": "حفظ التغييرات",
+    "updated": "تم تحديث الملف الشخصي",
+    "your_name": "اسمك",
+    "no_email": "لا يوجد بريد إلكتروني",
+    "add_address": "أضيفي عنوانك",
+    "personal_info": "البيانات الشخصية",
+    "contact_info": "بيانات التواصل",
+    "occupation": "الوظيفة",
+    "manager": "مدير",
+    "employer": "جهة العمل",
+    "food_couriers": "Food Couriers",
+    "nigeria": "نيجيريا",
+    "phone_number": "رقم الهاتف",
+    "email": "البريد الإلكتروني",
+    "address": "العنوان",
+    "change_photo": "تغيير الصورة"
+  }
+}

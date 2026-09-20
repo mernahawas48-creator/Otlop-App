@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:otlopapp/core/widgets/product_image.dart';
@@ -15,11 +16,11 @@ class HomeView extends StatelessWidget {
       bottom: false,
       child: Column(
         children: [
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 16),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16),
             child: Text(
-              'Market',
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              'home.market'.tr(),
+              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
           ),
           Expanded(
@@ -36,7 +37,7 @@ class HomeView extends StatelessWidget {
                           TextButton(
                             onPressed: () =>
                                 context.read<ProductsCubit>().getAllProducts(),
-                            child: const Text('Retry'),
+                            child: Text('common.retry'.tr()),
                           ),
                         ],
                       ),
@@ -47,7 +48,7 @@ class HomeView extends StatelessWidget {
                   return const Center(child: CircularProgressIndicator());
                 }
                 if (state.products.isEmpty) {
-                  return const Center(child: Text('No products available'));
+                  return Center(child: Text('home.no_products'.tr()));
                 }
                 return LayoutBuilder(
                   builder: (context, constraints) {
@@ -99,7 +100,7 @@ class HomeView extends StatelessWidget {
                                     height: 40 * scale,
                                     child: Center(
                                       child: Text(
-                                        product.title ?? 'Product',
+                                        product.title ?? 'common.product'.tr(),
                                         textAlign: TextAlign.center,
                                         maxLines: 2,
                                         overflow: TextOverflow.ellipsis,
@@ -113,7 +114,7 @@ class HomeView extends StatelessWidget {
                                   const SizedBox(height: 6),
                                   Text(
                                     product.price == null
-                                        ? 'Price unavailable'
+                                        ? 'common.price_unavailable'.tr()
                                         : '\$${product.price!.toStringAsFixed(2)}',
                                     style: const TextStyle(
                                       color: Color(0xffD61355),
@@ -150,7 +151,14 @@ class HomeView extends StatelessWidget {
                                                 ..showSnackBar(
                                                   SnackBar(
                                                     content: Text(
-                                                      '${product.title ?? 'Product'} added to cart',
+                                                      'home.added_to_cart'.tr(
+                                                        namedArgs: {
+                                                          'product':
+                                                              product.title ??
+                                                              'common.product'
+                                                                  .tr(),
+                                                        },
+                                                      ),
                                                     ),
                                                     duration: const Duration(
                                                       seconds: 1,
@@ -158,8 +166,8 @@ class HomeView extends StatelessWidget {
                                                   ),
                                                 );
                                             },
-                                      child: const Text(
-                                        'Add to Cart',
+                                      child: Text(
+                                        'home.add_to_cart'.tr(),
                                         textAlign: TextAlign.center,
                                       ),
                                     ),

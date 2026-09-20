@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:otlopapp/core/storage/app_preferences.dart';
@@ -30,18 +31,15 @@ class _ProfileViewState extends State<ProfileView> {
   String get fullName {
     final firstName = firstNameController.text.trim();
     final lastName = lastNameController.text.trim();
-    final name = '$firstName $lastName'.trim();
-    return name.isEmpty ? 'Your name' : name;
+    return '$firstName $lastName'.trim();
   }
 
   String get email {
-    final savedEmail = emailController.text.trim();
-    return savedEmail.isEmpty ? 'No email added' : savedEmail;
+    return emailController.text.trim();
   }
 
   String get address {
-    final savedAddress = addressController.text.trim();
-    return savedAddress.isEmpty ? 'Add your address' : savedAddress;
+    return addressController.text.trim();
   }
 
   @override
@@ -85,8 +83,9 @@ class _ProfileViewState extends State<ProfileView> {
 
     if (!mounted) return;
     setState(() {});
-    ScaffoldMessenger.of(context)
-        .showSnackBar(const SnackBar(content: Text('Profile updated')));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('profile.updated'.tr())),
+    );
   }
 
   Future<void> _openEditProfileSheet() async {
@@ -109,22 +108,25 @@ class _ProfileViewState extends State<ProfileView> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Text(
-                'Edit Profile',
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800),
+              Text(
+                'profile.edit_profile'.tr(),
+                style: const TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w800,
+                ),
               ),
               const SizedBox(height: 20),
-              _buildTextField('First Name', firstNameController),
+              _buildTextField('auth.first_name', firstNameController),
               const SizedBox(height: 14),
-              _buildTextField('Last Name', lastNameController),
+              _buildTextField('auth.last_name', lastNameController),
               const SizedBox(height: 14),
               _buildTextField(
-                'Email',
+                'profile.email',
                 emailController,
                 keyboardType: TextInputType.emailAddress,
               ),
               const SizedBox(height: 14),
-              _buildTextField('Address', addressController),
+              _buildTextField('profile.address', addressController),
               const SizedBox(height: 22),
               SizedBox(
                 height: 54,
@@ -140,9 +142,12 @@ class _ProfileViewState extends State<ProfileView> {
                       borderRadius: BorderRadius.circular(18),
                     ),
                   ),
-                  child: const Text(
-                    'Save Changes',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                  child: Text(
+                    'profile.save_changes'.tr(),
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
               ),
@@ -154,7 +159,7 @@ class _ProfileViewState extends State<ProfileView> {
   }
 
   Widget _buildTextField(
-    String label,
+    String labelKey,
     TextEditingController controller, {
     TextInputType? keyboardType,
   }) {
@@ -162,7 +167,7 @@ class _ProfileViewState extends State<ProfileView> {
       controller: controller,
       keyboardType: keyboardType,
       decoration: InputDecoration(
-        labelText: label,
+        labelText: labelKey.tr(),
         filled: true,
         fillColor: _backgroundColor,
         border: OutlineInputBorder(
@@ -188,9 +193,9 @@ class _ProfileViewState extends State<ProfileView> {
                   children: [
                     _ProfileTopBar(onBack: () => Navigator.maybePop(context)),
                     const SizedBox(height: 28),
-                    const Text(
-                      'Profile',
-                      style: TextStyle(
+                    Text(
+                      'profile.title'.tr(),
+                      style: const TextStyle(
                         fontSize: 36,
                         fontWeight: FontWeight.w800,
                         letterSpacing: 0,
@@ -204,21 +209,29 @@ class _ProfileViewState extends State<ProfileView> {
                       ),
                     ),
                     const SizedBox(height: 38),
-                    _SectionTitle('Personal Info'),
+                    _SectionTitle('profile.personal_info'.tr()),
                     const SizedBox(height: 14),
                     _InfoCard(
                       children: [
-                        _InfoRow(label: 'Your name', value: fullName),
+                        _InfoRow(
+                          label: 'profile.your_name'.tr(),
+                          value: fullName.isEmpty
+                              ? 'profile.your_name'.tr()
+                              : fullName,
+                        ),
                         const _CardDivider(),
-                        const _InfoRow(label: 'Occupation', value: 'Manager'),
+                        _InfoRow(
+                          label: 'profile.occupation'.tr(),
+                          value: 'profile.manager'.tr(),
+                        ),
                         const _CardDivider(),
-                        const _InfoRow(
-                          label: 'Employer',
-                          value: 'Food Couriers',
+                        _InfoRow(
+                          label: 'profile.employer'.tr(),
+                          value: 'profile.food_couriers'.tr(),
                         ),
                         const _CardDivider(),
                         _SwitchInfoRow(
-                          title: 'Nigeria',
+                          title: 'profile.nigeria'.tr(),
                           value: isAvailable,
                           onChanged: (value) {
                             setState(() => isAvailable = value);
@@ -227,18 +240,26 @@ class _ProfileViewState extends State<ProfileView> {
                       ],
                     ),
                     const SizedBox(height: 32),
-                    _SectionTitle('Contact Info'),
+                    _SectionTitle('profile.contact_info'.tr()),
                     const SizedBox(height: 14),
                     _InfoCard(
                       children: [
-                        const _InfoRow(
-                          label: 'Phone number',
+                        _InfoRow(
+                          label: 'profile.phone_number'.tr(),
                           value: '+234 813 0400 445',
                         ),
                         const _CardDivider(),
-                        _InfoRow(label: 'Email', value: email),
+                        _InfoRow(
+                          label: 'profile.email'.tr(),
+                          value: email.isEmpty ? 'profile.no_email'.tr() : email,
+                        ),
                         const _CardDivider(),
-                        _InfoRow(label: 'Address', value: address),
+                        _InfoRow(
+                          label: 'profile.address'.tr(),
+                          value: address.isEmpty
+                              ? 'profile.add_address'.tr()
+                              : address,
+                        ),
                       ],
                     ),
                     const SizedBox(height: 24),
@@ -248,7 +269,7 @@ class _ProfileViewState extends State<ProfileView> {
                       child: ElevatedButton.icon(
                         onPressed: _openEditProfileSheet,
                         icon: const Icon(Icons.edit_rounded),
-                        label: const Text('Edit Profile'),
+                        label: Text('profile.edit_profile'.tr()),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: _primaryColor,
                           foregroundColor: Colors.white,
@@ -285,12 +306,12 @@ class _ProfileTopBar extends StatelessWidget {
       children: [
         _SoftIconButton(
           icon: Icons.arrow_back_ios_new_rounded,
-          tooltip: 'Back',
+          tooltip: 'common.back'.tr(),
           onPressed: onBack,
         ),
         _SoftIconButton(
           icon: Icons.notifications_none_rounded,
-          tooltip: 'Notifications',
+          tooltip: 'common.notifications'.tr(),
           onPressed: () {},
         ),
       ],
@@ -371,7 +392,7 @@ class _ProfileAvatar extends StatelessWidget {
             height: 44,
             child: IconButton(
               onPressed: onEdit,
-              tooltip: 'Change photo',
+              tooltip: 'profile.change_photo'.tr(),
               style: IconButton.styleFrom(
                 backgroundColor: _ProfileViewState._primaryColor,
                 foregroundColor: Colors.white,

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:otlopapp/core/utils/back_button.dart';
@@ -81,12 +82,14 @@ class _LoginSignupScreenState extends State<AuthView> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         _AuthTab(
-                          title: 'Create Account',
+                          title: 'auth.create_account'.tr(),
+                          indicatorWidth: 80,
                           selected: !isLogin,
                           onTap: () => setState(() => isLogin = false),
                         ),
                         _AuthTab(
-                          title: 'Login',
+                          title: 'auth.login'.tr(),
+                          indicatorWidth: 36,
                           selected: isLogin,
                           onTap: () => setState(() => isLogin = true),
                         ),
@@ -115,11 +118,13 @@ class _LoginSignupScreenState extends State<AuthView> {
 
 class _AuthTab extends StatelessWidget {
   final String title;
+  final double indicatorWidth;
   final bool selected;
   final VoidCallback onTap;
 
   const _AuthTab({
     required this.title,
+    required this.indicatorWidth,
     required this.selected,
     required this.onTap,
   });
@@ -140,7 +145,7 @@ class _AuthTab extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Container(
-            width: title == 'Login' ? 36 : 80,
+            width: indicatorWidth,
             height: 2,
             color: selected ? const Color(0xFFE50046) : Colors.transparent,
           ),

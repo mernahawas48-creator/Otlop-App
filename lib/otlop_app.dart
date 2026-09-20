@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,6 +27,9 @@ class Otlopapp extends StatelessWidget {
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          locale: context.locale,
           initialRoute: '/',
           routes: {
             '/': (context) => AppPreferences.hasSeenOnboarding
@@ -40,7 +44,7 @@ class Otlopapp extends StatelessWidget {
             '/nav': (context) => const NavBarView(),
             ProductDetailsView.routeName: (context) => ProductDetailsView(),
           },
-          title: 'Otlob',
+          onGenerateTitle: (context) => 'app.title'.tr(),
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(
               seedColor: const Color(0xFFE50046),
