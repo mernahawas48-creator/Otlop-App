@@ -39,10 +39,6 @@ class _SignUpFormState extends State<SignUpForm> {
 
   String? _profileImagePath;
 
-  // =========================
-  // PICK PROFILE IMAGE
-  // =========================
-
   Future<void> _pickProfileImage() async {
     final XFile? image = await _imagePicker.pickImage(
       source: ImageSource.gallery,
@@ -56,10 +52,6 @@ class _SignUpFormState extends State<SignUpForm> {
       _profileImagePath = image.path;
     });
   }
-
-  // =========================
-  // CREATE ACCOUNT
-  // =========================
 
   Future<void> _createAccount() async {
     if (!(_formKey.currentState?.validate() ?? false)) {
@@ -81,9 +73,6 @@ class _SignUpFormState extends State<SignUpForm> {
         lastName: _lastNameController.text.trim(),
       );
 
-      // Save account data locally
-      // for the Profile page.
-
       await AppPreferences.saveUserData(
         firstName: _firstNameController.text.trim(),
 
@@ -101,10 +90,6 @@ class _SignUpFormState extends State<SignUpForm> {
       if (!mounted) {
         return;
       }
-
-      // IMPORTANT:
-      // No success dialog here.
-      // Go directly to OTP.
 
       Navigator.push(
         context,
@@ -143,10 +128,6 @@ class _SignUpFormState extends State<SignUpForm> {
     }
   }
 
-  // =========================
-  // PASSWORD VALIDATOR
-  // =========================
-
   String? _validatePassword(String? value) {
     final String password = value ?? '';
 
@@ -177,10 +158,6 @@ class _SignUpFormState extends State<SignUpForm> {
     return null;
   }
 
-  // =========================
-  // DISPOSE
-  // =========================
-
   @override
   void dispose() {
     _firstNameController.dispose();
@@ -194,10 +171,6 @@ class _SignUpFormState extends State<SignUpForm> {
     super.dispose();
   }
 
-  // =========================
-  // UI
-  // =========================
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -210,10 +183,6 @@ class _SignUpFormState extends State<SignUpForm> {
           crossAxisAlignment: CrossAxisAlignment.start,
 
           children: [
-            // =========================
-            // PROFILE IMAGE
-            // =========================
-
             Center(
               child: Column(
                 children: [
@@ -316,9 +285,6 @@ class _SignUpFormState extends State<SignUpForm> {
 
             const SizedBox(height: 15),
 
-            // =========================
-            // LAST NAME
-            // =========================
             const Text(
               'Last Name',
 
@@ -347,9 +313,6 @@ class _SignUpFormState extends State<SignUpForm> {
 
             const SizedBox(height: 15),
 
-            // =========================
-            // EMAIL
-            // =========================
             const Text('Email', style: TextStyle(fontWeight: FontWeight.w600)),
 
             const SizedBox(height: 6),
@@ -383,9 +346,6 @@ class _SignUpFormState extends State<SignUpForm> {
 
             const SizedBox(height: 15),
 
-            // =========================
-            // PASSWORD
-            // =========================
             const Text(
               'Password',
 
@@ -430,9 +390,6 @@ class _SignUpFormState extends State<SignUpForm> {
 
             const SizedBox(height: 25),
 
-            // =========================
-            // SIGN UP BUTTON
-            // =========================
             SizedBox(
               width: double.infinity,
 
